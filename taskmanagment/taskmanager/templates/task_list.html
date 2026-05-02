@@ -1,0 +1,43 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+
+<h2>My Tasks</h2>
+
+<form method="get">
+    <input type="text" name="search" placeholder="Search...">
+
+    <select name="status">
+        <option value="">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="in_progress">In Progress</option>
+        <option value="completed">Completed</option>
+    </select>
+
+    <select name="priority">
+        <option value="">All Priority</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
+
+<hr>
+
+{% for task in tasks %}
+    <div>
+        <h3><a href="{% url 'task_detail' task.id %}">{{ task.title }}</a></h3>
+        <p>{{ task.description }}</p>
+        <p>Status: {{ task.status }} | Priority: {{ task.priority }}</p>
+
+        <a href="{% url 'update_task' task.id %}">Edit</a>
+        <a href="{% url 'delete_task' task.id %}">Delete</a>
+    </div>
+    <hr>
+{% empty %}
+    <p>No tasks found</p>
+{% endfor %}
+
+{% endblock %}
